@@ -722,9 +722,9 @@ function add_svf (operation) {
 
 function add_op (operation) {
 	if (elem) {
-		if (elem[1] == 0) { // if add at the start
-			let first = new value('')
-			let second = elem[0]
+		if (elem[1] == elem[0].tostr().length) { // if add at the end
+			let first = elem[0]
+			let second = new value('')
 			let priority = op_priority.indexOf(operation)
 			while (first.parent && op_priority.indexOf(first.parent.name) < priority) first = first.parent
 			if (first.parent) {
@@ -738,9 +738,9 @@ function add_op (operation) {
 				elem = [second, 0]
 			}
 		}
-		else if (elem[1] == elem[0].tostr().length) { // if add at the end
-			let first = elem[0]
-			let second = new value('')
+		else if (elem[1] == 0) { // if add at the start
+			let first = new value('')
+			let second = elem[0]
 			let priority = op_priority.indexOf(operation)
 			while (first.parent && op_priority.indexOf(first.parent.name) < priority) first = first.parent
 			if (first.parent) {
@@ -844,8 +844,26 @@ function hotkey (event) {
 			add_digit(event.key)
 			break
 
+		case '.':
+			add_dec_sep()
+			break
+
+		case '+':
+		case '-':
+		case '*':
+		case '/':
+		case '^':
+			add_op(event.key)
+			break
+		case 's':
+			add_op('√')
+			break
+
 		case 'Backspace':
-			t_del()
+			t_del_left()
+			break
+		case 'delete':
+			t_del_right()
 			break
 
 		case 'Enter':
